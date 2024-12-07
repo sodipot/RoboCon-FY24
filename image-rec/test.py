@@ -12,6 +12,7 @@ input_img_list.append(cv2.imread("./src/right_img.png", 0))
 input_img_list.append(cv2.imread("./src/left_img.png", 0))
 input_img_list.append(cv2.imread("./src/up_img.png", 0))
 input_img_list.append(cv2.imread("./src/down_img.png", 0))
+input_img_list.append(cv2.imread("./src/drow_img.png", 0))
 
 # 入力画像とテンプレート画像のマッチング
 for input_img in input_img_list:
