@@ -2,6 +2,11 @@
 import cv2
 import numpy as np
 
+# 各種経験則パラメータ
+size_range_min = 0.9  # 明らかに違う比率の結果を弾く重要パラメータ
+size_range_max = 1.1  # 明らかに違う比率の結果を弾く重要パラメータ
+dif_range = 0.05  # 重要パラメータ
+
 # ORB特徴点検出器を作る
 #extractor = cv2.ORB_create()
 extractor = cv2.AKAZE_create()
@@ -78,9 +83,6 @@ def calc_scale_deg_mat(query_kp, map_kp):
 def select_related_points(len_cand, deg_cand):
     point_num = len(len_cand[0])
     cand_count = np.zeros((point_num, point_num))
-    size_range_min = 0.9  # 明らかに違う比率の結果を弾く重要パラメータ
-    size_range_max = 1.1  # 明らかに違う比率の結果を弾く重要パラメータ
-    dif_range = 0.05  # 重要パラメータ
 
     # スケール・回転角行列
     # print(f"len_cand = {len_cand}")
