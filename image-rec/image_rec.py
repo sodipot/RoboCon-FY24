@@ -49,12 +49,12 @@ def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
             # マップ画像から特徴点間の角度と距離を計算
             m_len, m_deg = calcurate_len_deg(map_kp, i, j)
             # 2つの画像の相対角度と距離
-            deg_value = q_deg - m_deg
+            deg_value = m_deg - q_deg
             if deg_value < 0:
                 deg_value += 360
             if m_len <= 0:
                 continue
-            scale = q_len/m_len
+            scale = m_len/q_len
             # 結果を行列に格納
             deg_cand[i][j] = deg_value
             deg_cand[j][i] = deg_value
@@ -64,34 +64,41 @@ def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
     return len_cand, deg_cand
 
 # 最も多く相対関係が一致する2点を選択
+# それはないだろ的な2点を経験則で排除する
 # ある点iについて，j, kとの相対関係が一致するかを各jについて調べる
 def select_related_points(len_cand, deg_cand, point_num = 2):
     cand_count = np.zeros((point_num, point_num))
-    size_range_min = 0.3  # 明らかに違う比率の結果を弾く重要パラメータ
-    size_range_max = 5.0  # 明らかに違う比率の結果を弾く重要パラメータ
+    size_range_min = 0.5  # 明らかに違う比率の結果を弾く重要パラメータ
+    size_range_max = 2.0  # 明らかに違う比率の結果を弾く重要パラメータ
     dif_range = 1.0  # 重要パラメータ
+
+    print(f"len_cand = {len_cand}")
+    print(f"deg_cand = {deg_cand}")
 
     for i in range(len(deg_cand)):
         for j in range(len(deg_cand)):
             # 明らかに違う比率の結果を弾く
             if len_cand[i][j] < size_range_min or len_cand[i][j] > size_range_max:
-                # print(f"len_cand[i][j] = {len_cand[i][j]}")
+                #print(f"len_cand[i][j] = {len_cand[i][j]}")
                 continue
 
             for k in range(len(deg_cand)):
                 # 明らかに違う比率の結果を弾く
                 if len_cand[i][k] < size_range_min or len_cand[i][k] > size_range_max:
-                    # print(f"len_cand[i][k] = {len_cand[i][k]}")
+                    #print(f"len_cand[i][k] = {len_cand[i][k]}")
                     continue
 
                 # 誤差がある範囲以下の値なら同じ値とみなす
                 deg_dif = np.abs(deg_cand[i][k] - deg_cand[i][j])
                 size_dif = np.abs(len_cand[i][k] - len_cand[i][j])
+                print(f"size_dif = {size_dif}, deg_fif = {deg_dif}")
+                print(f"len_cand[i][j]*dif_range={len_cand[i][j]*dif_range}, deg_cand[i][j]*dif_range={deg_cand[i][j]*dif_range}")
                 if deg_dif <= deg_cand[i][j]*dif_range and size_dif <= len_cand[i][j]*dif_range:
                     cand_count[i][j] += 1
+                    print("cand_count")
 
     # どの2点も同じ相対関係になかった場合
-    if np.max(cand_count) <= 1:
+    if np.max(cand_count) < 1:
         print("[error] no matching point pair")
         return None, None, None
 

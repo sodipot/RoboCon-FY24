@@ -19,7 +19,7 @@ for input_img in input_img_list:
     # メインロジック
     input_kp, input_des = image_rec.create_vec(input_img)
     matches = image_rec.knn_match(query_des, input_des)
-    good = image_rec.select_good_matches(matches, 1.0)
+    good = image_rec.select_good_matches(matches, 0.85)
     # 精度が高かったもののうちスコアが高いものから指定個取り出す
     good = sorted(good, key=lambda x: x[0].distance)
 
