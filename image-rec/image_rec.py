@@ -21,42 +21,52 @@ def knn_match(des1, des2):
     return matches
 
 # 閾値でマッチング選別
-def select_good_matches(matches, ratio=0.5):
+def select_good_matches(matches, ratio=0.1):
     good = []
     for m, n in matches:
         if m.distance < ratio * n.distance:
             good.append([m])
     return good
 
+# 対応するマップとクエリの特徴点インデックスを取得
+def get_map_query_idx(matches):
+    map_idx_list = []
+    query_idx_list = []
+    for match in matches:
+        query_idx_list.append(match[0].trainIdx)
+        map_idx_list.append(match[0].queryIdx)
+    return map_idx_list, query_idx_list
+
 # 距離と角度を計算
-def calcurate_len_deg(kp, i, j):    
+def calcurate_len_deg(kp, i, j):
     vec = np.array(kp[i].pt) - np.array(kp[j].pt)
     deg = np.arctan2(vec[1], vec[0])
     len = np.linalg.norm(vec)
     return len, deg
 
 # スケールと回転角の行列を計算
-def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
+def calc_scale_deg_mat(query_kp, map_kp):
+    point_num = len(map_kp)
     # 点i, jの相対角度と相対長さを格納する配列
     deg_cand = np.zeros((point_num, point_num))  
     len_cand = np.zeros((point_num, point_num))
     # 全ての点のサイズ比，相対角度を求める
     for i in range(point_num):
         for j in range(i+1, point_num):
-            # クエリ画像から特徴点間の角度と距離を計算
-            q_len, q_deg = calcurate_len_deg(query_kp, i, j)
             # マップ画像から特徴点間の角度と距離を計算
             m_len, m_deg = calcurate_len_deg(map_kp, i, j)
+            # クエリ画像から特徴点間の角度と距離を計算
+            q_len, q_deg = calcurate_len_deg(query_kp, i, j)
             # 2つの画像の相対角度と距離
-            deg_value = np.rad2deg(m_deg - q_deg)
+            deg_value = np.rad2deg(q_deg - m_deg)
             
-            print(f"m_deg = {m_deg}, q_deg = {q_deg}")
-            print(f"deg_value = {deg_value}")
+            #print(f"m_deg = {m_deg}, q_deg = {q_deg}")
+            #print(f"deg_value = {deg_value}")
             if deg_value < 0:
                 deg_value += 360
             if m_len <= 0:
                 continue
-            scale = m_len/q_len
+            scale = q_len/m_len
             # 結果を行列に格納
             deg_cand[i][j] = deg_value
             deg_cand[j][i] = deg_value
@@ -68,11 +78,12 @@ def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
 # 最も多く相対関係が一致する2点を選択
 # それはないだろ的な2点を経験則で排除する
 # ある点iについて，j, kとの相対関係が一致するかを各jについて調べる
-def select_related_points(len_cand, deg_cand, point_num = 2):
+def select_related_points(len_cand, deg_cand):
+    point_num = len(len_cand[0])
     cand_count = np.zeros((point_num, point_num))
-    size_range_min = 0.5  # 明らかに違う比率の結果を弾く重要パラメータ
-    size_range_max = 2.0  # 明らかに違う比率の結果を弾く重要パラメータ
-    dif_range = 1.0  # 重要パラメータ
+    size_range_min = 0.9  # 明らかに違う比率の結果を弾く重要パラメータ
+    size_range_max = 1.1  # 明らかに違う比率の結果を弾く重要パラメータ
+    dif_range = 0.05  # 重要パラメータ
 
     print(f"len_cand = {len_cand}")
     print(f"deg_cand = {deg_cand}")
@@ -93,11 +104,10 @@ def select_related_points(len_cand, deg_cand, point_num = 2):
                 # 誤差がある範囲以下の値なら同じ値とみなす
                 deg_dif = np.abs(deg_cand[i][k] - deg_cand[i][j])
                 size_dif = np.abs(len_cand[i][k] - len_cand[i][j])
-                print(f"size_dif = {size_dif}, deg_fif = {deg_dif}")
-                print(f"len_cand[i][j]*dif_range={len_cand[i][j]*dif_range}, deg_cand[i][j]*dif_range={deg_cand[i][j]*dif_range}")
+                #print(f"size_dif = {size_dif}, deg_fif = {deg_dif}")
+                #print(f"len_cand[i][j]*dif_range={len_cand[i][j]*dif_range}, deg_cand[i][j]*dif_range={deg_cand[i][j]*dif_range}")
                 if deg_dif <= deg_cand[i][j]*dif_range and size_dif <= len_cand[i][j]*dif_range:
                     cand_count[i][j] += 1
-                    print("cand_count")
 
     # どの2点も同じ相対関係になかった場合
     if np.max(cand_count) < 1:
