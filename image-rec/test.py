@@ -19,7 +19,10 @@ for query_img in query_img_list:
     # メインロジック
     query_kp, query_des = image_rec.create_vec(query_img)
     matches = image_rec.knn_match(map_des, query_des)
-    good = image_rec.select_good_matches(matches, 0.85)
+    good = image_rec.select_good_matches(matches, 8.5)
+    if (len(good) < 1):
+        print("[error] no good point")
+        continue
     # 精度が高かったもののうちスコアが高いものから指定個取り出す
     good = sorted(good, key=lambda x: x[0].distance)
     # goodに対応するmapとqueryを並べ替え
