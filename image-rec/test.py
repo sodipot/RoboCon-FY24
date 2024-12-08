@@ -3,16 +3,13 @@ import cv2
 import image_rec
 
 # テンプレート画像
-query_img = cv2.imread("./src/templete_arrow.png", 0)
+query_img = cv2.imread("./src/query_arrow.png", 0)
 query_kp, query_des = image_rec.create_vec(query_img)
 
 # 入力画像
 input_img_list = []
-input_img_list.append(cv2.imread("./src/right_img.png", 0))
-input_img_list.append(cv2.imread("./src/left_img.png", 0))
-input_img_list.append(cv2.imread("./src/up_img.png", 0))
-input_img_list.append(cv2.imread("./src/down_img.png", 0))
-input_img_list.append(cv2.imread("./src/drow_img.png", 0))
+input_img_list.append(cv2.imread("./src/right_arrow.png", 0))
+input_img_list.append(cv2.imread("./src/left_arrow.png", 0))
 
 # 入力画像とテンプレート画像のマッチング
 for input_img in input_img_list:
