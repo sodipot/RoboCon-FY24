@@ -21,6 +21,11 @@ for input_img in input_img_list:
     matches = image_rec.knn_match(query_des, input_des)
     good = image_rec.select_good_matches(matches, 0.2)
 
+    # 特徴点同士のスケール・回転角行列計算
+    scale_map, deg_map = image_rec.calc_scale_deg_mat(query_kp, input_kp)
+    print(scale_map)
+    print(deg_map)
+
     # 目視確認
     result_img = cv2.drawMatchesKnn(query_img, query_kp, input_img, input_kp, good, None, flags=2)
     cv2.imshow('result_img', result_img)
