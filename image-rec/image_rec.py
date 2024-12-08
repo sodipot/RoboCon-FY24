@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import cv2
-import math
 import numpy as np
 
 # ORB特徴点検出器を作る
@@ -60,8 +59,6 @@ def calc_scale_deg_mat(query_kp, map_kp):
             # 2つの画像の相対角度と距離
             deg_value = np.rad2deg(q_deg - m_deg)
             
-            #print(f"m_deg = {m_deg}, q_deg = {q_deg}")
-            #print(f"deg_value = {deg_value}")
             if deg_value < 0:
                 deg_value += 360
             if m_len <= 0:
@@ -85,27 +82,24 @@ def select_related_points(len_cand, deg_cand):
     size_range_max = 1.1  # 明らかに違う比率の結果を弾く重要パラメータ
     dif_range = 0.05  # 重要パラメータ
 
-    print(f"len_cand = {len_cand}")
-    print(f"deg_cand = {deg_cand}")
+    # スケール・回転角行列
+    # print(f"len_cand = {len_cand}")
+    # print(f"deg_cand = {deg_cand}")
 
     for i in range(len(deg_cand)):
         for j in range(len(deg_cand)):
             # 明らかに違う比率の結果を弾く
             if len_cand[i][j] < size_range_min or len_cand[i][j] > size_range_max:
-                #print(f"len_cand[i][j] = {len_cand[i][j]}")
                 continue
 
             for k in range(len(deg_cand)):
                 # 明らかに違う比率の結果を弾く
                 if len_cand[i][k] < size_range_min or len_cand[i][k] > size_range_max:
-                    #print(f"len_cand[i][k] = {len_cand[i][k]}")
                     continue
 
                 # 誤差がある範囲以下の値なら同じ値とみなす
                 deg_dif = np.abs(deg_cand[i][k] - deg_cand[i][j])
                 size_dif = np.abs(len_cand[i][k] - len_cand[i][j])
-                #print(f"size_dif = {size_dif}, deg_fif = {deg_dif}")
-                #print(f"len_cand[i][j]*dif_range={len_cand[i][j]*dif_range}, deg_cand[i][j]*dif_range={deg_cand[i][j]*dif_range}")
                 if deg_dif <= deg_cand[i][j]*dif_range and size_dif <= len_cand[i][j]*dif_range:
                     cand_count[i][j] += 1
 
