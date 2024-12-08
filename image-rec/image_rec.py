@@ -29,11 +29,10 @@ def select_good_matches(matches, ratio=0.5):
     return good
 
 # 距離と角度を計算
-def calcurate_len_deg(kp, i, j):
-    x1, y1 = kp[i].pt
-    x2, y2 = kp[j].pt
-    deg = math.atan2(y2 - y1, x2 - x1) * 180 / math.pi
-    len = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+def calcurate_len_deg(kp, i, j):    
+    vec = np.array(kp[i].pt) - np.array(kp[j].pt)
+    deg = np.arctan2(vec[1], vec[0])
+    len = np.linalg.norm(vec)
     return len, deg
 
 # スケールと回転角の行列を計算
@@ -49,7 +48,10 @@ def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
             # マップ画像から特徴点間の角度と距離を計算
             m_len, m_deg = calcurate_len_deg(map_kp, i, j)
             # 2つの画像の相対角度と距離
-            deg_value = m_deg - q_deg
+            deg_value = np.rad2deg(m_deg - q_deg)
+            
+            print(f"m_deg = {m_deg}, q_deg = {q_deg}")
+            print(f"deg_value = {deg_value}")
             if deg_value < 0:
                 deg_value += 360
             if m_len <= 0:
