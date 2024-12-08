@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import cv2
+import math
 
 # ORB特徴点検出器を作る
 extractor = cv2.ORB_create()
@@ -24,3 +25,11 @@ def select_good_matches(matches, ratio=0.5):
         if m.distance < ratio * n.distance:
             good.append([m])
     return good
+
+# 距離と角度を計算
+def calcurate_len_deg(kp, i, j):
+    x1, y1 = kp[i].pt
+    x2, y2 = kp[j].pt
+    deg = math.atan2(y2 - y1, x2 - x1) * 180 / math.pi
+    len = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+    return len, deg
