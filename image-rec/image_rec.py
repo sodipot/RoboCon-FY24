@@ -4,7 +4,8 @@ import math
 import numpy as np
 
 # ORB特徴点検出器を作る
-extractor = cv2.ORB_create()
+#extractor = cv2.ORB_create()
+extractor = cv2.AKAZE_create()
 
 # Brute-Force Matcher生成
 bf = cv2.BFMatcher()
@@ -61,3 +62,42 @@ def calc_scale_deg_mat(query_kp, map_kp, point_num=2):
             len_cand[j][i] = scale
     
     return len_cand, deg_cand
+
+# 最も多く相対関係が一致する2点を選択
+# ある点iについて，j, kとの相対関係が一致するかを各jについて調べる
+def select_related_points(len_cand, deg_cand, point_num = 2):
+    cand_count = np.zeros((point_num, point_num))
+    size_range_min = 0.3  # 明らかに違う比率の結果を弾く重要パラメータ
+    size_range_max = 5.0  # 明らかに違う比率の結果を弾く重要パラメータ
+    dif_range = 1.0  # 重要パラメータ
+
+    for i in range(len(deg_cand)):
+        for j in range(len(deg_cand)):
+            # 明らかに違う比率の結果を弾く
+            if len_cand[i][j] < size_range_min or len_cand[i][j] > size_range_max:
+                # print(f"len_cand[i][j] = {len_cand[i][j]}")
+                continue
+
+            for k in range(len(deg_cand)):
+                # 明らかに違う比率の結果を弾く
+                if len_cand[i][k] < size_range_min or len_cand[i][k] > size_range_max:
+                    # print(f"len_cand[i][k] = {len_cand[i][k]}")
+                    continue
+
+                # 誤差がある範囲以下の値なら同じ値とみなす
+                deg_dif = np.abs(deg_cand[i][k] - deg_cand[i][j])
+                size_dif = np.abs(len_cand[i][k] - len_cand[i][j])
+                if deg_dif <= deg_cand[i][j]*dif_range and size_dif <= len_cand[i][j]*dif_range:
+                    cand_count[i][j] += 1
+
+    # どの2点も同じ相対関係になかった場合
+    if np.max(cand_count) <= 1:
+        print("[error] no matching point pair")
+        return None, None, None
+
+    # もっとも多く相対関係が一致する2点を取ってくる
+    maxidx = np.unravel_index(np.argmax(cand_count), cand_count.shape)
+    deg_value = deg_cand[maxidx]
+    size_rate = len_cand[maxidx]
+
+    return deg_value, size_rate, maxidx
