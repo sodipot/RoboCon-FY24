@@ -40,6 +40,14 @@ for query_img in query_img_list:
     print(f"scale_value = {scale_value}")
     print(f"deg_value = {deg_value}")
     print(f"max_idx = {max_idx}")
+    # 矢印の向きを判定
+    arrow_direction = image_rec.get_arrow_direction(deg_value)
+    if arrow_direction == 0:
+        print(f"0: Right")
+    elif arrow_direction == 1:
+        print(f"1: Left")
+    else:
+        print(f"-1: Other")
 
     # 目視確認
     result_img = cv2.drawMatchesKnn(map_img, map_kp, query_img, query_kp, good, None, flags=2)

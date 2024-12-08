@@ -120,3 +120,20 @@ def select_related_points(len_cand, deg_cand):
     size_rate = len_cand[maxidx]
 
     return deg_value, size_rate, maxidx
+
+# 角度から左右を判別
+# 0:right, 1: left, -1: others
+def get_arrow_direction(deg):
+
+    # 左向きとして判定
+    if (0 <= deg and deg <= 10):
+        return 0
+    if (350 <= deg and deg <= 360):
+        return 0
+
+    # 右向きとして判定
+    if (170 <= deg and deg <= 190):
+        return 1
+    
+    # その他として判定
+    return -1
