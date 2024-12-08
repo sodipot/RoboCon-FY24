@@ -20,6 +20,7 @@ for input_img in input_img_list:
     input_kp, input_des = image_rec.create_vec(input_img)
     matches = image_rec.knn_match(query_des, input_des)
     good = image_rec.select_good_matches(matches, 0.2)
+
     # 目視確認
     result_img = cv2.drawMatchesKnn(query_img, query_kp, input_img, input_kp, good, None, flags=2)
     cv2.imshow('result_img', result_img)
