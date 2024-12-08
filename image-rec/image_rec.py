@@ -110,6 +110,7 @@ def select_related_points(len_cand, deg_cand):
         print("[error] no matching point pair")
         return None, None, None
 
+    #print(f"cand_count = {cand_count}")
     # もっとも多く相対関係が一致する2点を取ってくる
     maxidx = np.unravel_index(np.argmax(cand_count), cand_count.shape)
     deg_value = deg_cand[maxidx]
