@@ -3,8 +3,16 @@ import cv2
 import numpy as np
 
 # 各種経験則パラメータ
+# テストデータ用
+"""
 size_range_min = 0.9  # 明らかに違う比率の結果を弾く重要パラメータ
 size_range_max = 1.1  # 明らかに違う比率の結果を弾く重要パラメータ
+dif_range = 0.05  # 重要パラメータ
+"""
+
+# 実データ用
+size_range_min = 0.5  # 明らかに違う比率の結果を弾く重要パラメータ
+size_range_max = 2.0  # 明らかに違う比率の結果を弾く重要パラメータ
 dif_range = 0.05  # 重要パラメータ
 
 # ORB特徴点検出器を作る
@@ -121,16 +129,26 @@ def select_related_points(len_cand, deg_cand):
 # 角度から左右を判別
 # 0:right, 1: left, -1: others
 def get_arrow_direction(deg):
-
-    # 左向きとして判定
+    print(deg)
+    """
+    # 右向きとして判定
     if (0 <= deg and deg <= 10):
         return 0
     if (350 <= deg and deg <= 360):
         return 0
-
-    # 右向きとして判定
+    # 左向きとして判定
     if (170 <= deg and deg <= 190):
         return 1
-    
+    # その他として判定
+    return -1
+    """
+    # 右向きとして判定
+    if (0 <= deg and deg <= 45):
+        return 0
+    if (315 <= deg and deg <= 360):
+        return 0
+    # 左向きとして判定
+    if (135 <= deg and deg <= 225):
+        return 1
     # その他として判定
     return -1
