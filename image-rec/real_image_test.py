@@ -16,7 +16,6 @@ map_kp, map_des = image_rec.create_vec(map_thresh_img)
 file_path_list = glob.glob("./src/real_data/*")
 query_img_list = []
 for file_path in file_path_list:
-    print(file_path)
     query_img = cv2.imread(file_path, 0)
     # query_img_list.append(query_img)
     ret, img_thresh = cv2.threshold(query_img, 50, 255, cv2.THRESH_BINARY)
