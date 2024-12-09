@@ -18,28 +18,9 @@ query_img_list = []
 for file_path in file_path_list:
     print(file_path)
     query_img = cv2.imread(file_path, 0)
-    
-    """
-    ret, img_otsu = cv2.threshold(query_img, 0, 255, cv2.THRESH_OTSU)
-    query_img_list.append(img_otsu)
-    #閾値がいくつになったか確認
-    print("ret: {}".format(ret))
-    # 二値化画像の表示
-    cv2.imshow("img_th", img_otsu)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
-    """
 
-    
     ret, img_thresh = cv2.threshold(query_img, 50, 255, cv2.THRESH_BINARY)
     query_img_list.append(img_thresh)
-    """
-    # 二値化画像の表示
-    cv2.imshow("img_th", img_thresh)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
-    """
-    
 
 
 # 入力画像とテンプレート画像のマッチング
@@ -100,7 +81,7 @@ for query_img in query_img_list:
     else:
         str_final_result = "Error"
 
-    result_img = cv2.drawMatchesKnn(map_img, map_kp, query_img, query_kp, good, None, flags=2)
+    result_img = cv2.drawMatchesKnn(map_thresh_img, map_kp, query_img, query_kp, good, None, flags=2)
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText(result_img,f"{final_result}: {str_final_result}",(10,180),font,1,(0,0,0),2,cv2.LINE_AA)
     cv2.imshow('result_img', result_img)
