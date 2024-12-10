@@ -16,6 +16,7 @@ class EasyRun:
     def run(self):
         self.run_foword()
         time.sleep(2)
+        self.stop()
 
     # 距離取得関数
     def get_distance(self):
@@ -52,6 +53,6 @@ if __name__ == '__main__':
     try:
         easyrun.run()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-        #PWM.setMotorModel(0,0,0,0)
-        easyrun.PWM.setMotorModel(0,0,0,0)
+        PWM.setMotorModel(0,0,0,0)
+        #easyrun.PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
