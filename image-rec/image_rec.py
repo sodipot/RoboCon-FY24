@@ -143,12 +143,12 @@ def get_arrow_direction(deg):
     return -1
     """
     # 右向きとして判定
-    if (0 <= deg and deg <= 10):
+    if (0 <= deg and deg <= 20):
         return 0
-    if (350 <= deg and deg <= 360):
+    if (340 <= deg and deg <= 360):
         return 0
     # 左向きとして判定
-    if (170 <= deg and deg <= 190):
+    if (160 <= deg and deg <= 200):
         return 1
     # その他として判定
     return -1
