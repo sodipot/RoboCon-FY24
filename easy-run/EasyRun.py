@@ -30,7 +30,7 @@ class EasyRun:
     # 停止
     def stop(self):
         self.PWM.setMotorModel(0,0,0,0)                                                                                                                                                                                             
-    
+
     # 左回転
     def turn_left(self):
         self.PWM.setMotorModel(-1450, -1450, 1450, 1450)
@@ -55,9 +55,3 @@ if __name__ == '__main__':
         #PWM.setMotorModel(0,0,0,0)
         easyrun.PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
-                
-        
-            
-        
-
-
