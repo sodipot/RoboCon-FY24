@@ -15,7 +15,6 @@ solver3 = Solver3()
 # Main program logic follows:
 if __name__ == '__main__':
     print ('UpaRun Program is starting ... ')
-    
     try:
         solver1.execute()
         solver2.execute()

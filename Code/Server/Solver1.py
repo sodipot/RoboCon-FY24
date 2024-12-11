@@ -9,19 +9,24 @@ class Solver1:
     picam2 = Picamera2()
 
     def __init__(self):
-        self.picam2.start()
+        pass
 
     def __del__(self):
-        self.picam2.stop()
+        pass
 
     def execute(self):
         print("solver1 execute!")
-        time.sleep(2)
+        
+        self.picam2.start()
+        self.judge_arrow_direction()
+        self.picam2.stop()
+
         print("solver1 end!")
         return
-    
-    def judge_arroow_direction(self):
+
+    def judge_arrow_direction(self):
         self.picam2.capture_file(self.img_file_path)
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
+        print("direction is " + str(direction))
         return direction
 

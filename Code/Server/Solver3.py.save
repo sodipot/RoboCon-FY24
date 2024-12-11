@@ -1,0 +1,27 @@
+import time
+from Line_Tracking import Line_Tracking
+
+
+infrared=Line_Tracking()
+
+class Solver3:
+    def __init__(self):
+        pass
+
+    def execute(self):
+        print("solver3 execute!!")
+            def check_Infrared(self):
+        if IR01_sensor.value !=True and IR02_sensor.value == True and IR03_sensor.value !=True:
+            print ('Middle')
+            return 1
+        elif IR01_sensor.value !=True and IR02_sensor.value != True and IR03_sensor.value ==True:
+            print ('Right')
+            return 2
+        elif IR01_sensor.value ==True and IR02_sensor.value != True and IR03_sensor.value !=True:
+            print ('Left')
+            return 0
+        else :
+            print('none')
+            return -1infrared.run()
+        print("solver3 end!")
+        return
