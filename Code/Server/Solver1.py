@@ -2,11 +2,7 @@ import time
 import os
 import image_rec_lib
 from picamera2 import Picamera2
-from gpiozero import DistanceSensor
-
-trigger_pin = 27
-echo_pin    = 22
-sensor = DistanceSensor(echo=echo_pin, trigger=trigger_pin ,max_distance=3)
+from SensorInstance import sensor
 
 class Solver1:
     img_file_path = os.path.abspath(f"./capture_image.jpg")
@@ -20,6 +16,8 @@ class Solver1:
 
     def execute(self):
         print("solver1 execute!")
+
+        self.sensor = sensor
         
         self.get_distance()
         time.sleep(1)
@@ -37,7 +35,7 @@ class Solver1:
         return
 
     def get_distance(self):
-        distance_cm = sensor.distance * 100
+        distance_cm = self.sensor.distance * 100
         print(str(distance_cm) + "cm")
         return int(distance_cm)
 

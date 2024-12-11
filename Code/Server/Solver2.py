@@ -1,10 +1,7 @@
 import time
 from gpiozero import DistanceSensor
 from Move import Move
-
-trigger_pin = 27
-echo_pin    = 22
-sensor = DistanceSensor(echo=echo_pin, trigger=trigger_pin ,max_distance=3)
+from SensorInstance import sensor
 car = Move()
 
 class Solver2:
@@ -14,6 +11,8 @@ class Solver2:
     def execute(self):
         print("solver2 execute!!")
         
+        self.sensor = sensor
+
         # 進み順をここで定義する
         self.avoid_to_left()
         self.avoid_to_right()
@@ -23,7 +22,7 @@ class Solver2:
         return
     
     def get_distance(self):
-        distance_cm = sensor.distance * 100
+        distance_cm = self.sensor.distance * 100
         print(str(distance_cm) + "cm")
         return int(distance_cm)
     
