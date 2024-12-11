@@ -18,7 +18,8 @@ class Solver1:
 
     def execute(self):
         print("solver1 execute!")
-
+        
+        self.sensor = sensor
         isSolved = False
 
         while not isSolved:
