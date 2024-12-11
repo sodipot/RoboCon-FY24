@@ -79,7 +79,8 @@ class Motor:
         self.left_Lower_Wheel(duty2)
         self.right_Upper_Wheel(duty3)
         self.right_Lower_Wheel(duty4)
-            
+    
+    # 90度を指定すると135度ぐらい回る
     def Rotate(self,n):
         angle = n
         bat_compensate =7.5/(self.adc.recvADC(2)*3)

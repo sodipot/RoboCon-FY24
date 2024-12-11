@@ -12,10 +12,12 @@ class Solver3:
     def execute(self):
         print("solver3 execute!!")
 
+        # いい感じに黒線に乗るまでの間はゆっくり前進しておく
         while infrared.check_Infrared() == -1:
             PWM.setMotorModel(800,800,800,800)
             time.sleep(0.1)
 
+        # ライントレースのサンプルを呼び出す
         infrared.run()
         print("solver3 end!")
         return
