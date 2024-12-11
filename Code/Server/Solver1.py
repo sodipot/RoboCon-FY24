@@ -11,6 +11,9 @@ class Solver1:
     def __init__(self):
         self.picam2.start()
 
+    def __del__(self):
+        self.picam2.stop()
+
     def execute(self):
         print("solver1 execute!")
         time.sleep(2)
