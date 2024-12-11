@@ -1,11 +1,13 @@
 import time
+import real_image_lib
+import Picamera
 from Motor import *
 from gpiozero import DistanceSensor
 
 trigger_pin = 27
 echo_pin    = 22
 sensor = DistanceSensor(echo=echo_pin, trigger=trigger_pin ,max_distance=3)
-
+camera = Picamera()
 
 class EasyRun:
     # コンストラクタ
@@ -17,6 +19,9 @@ class EasyRun:
         self.run_foword()
         time.sleep(2)
         self.stop()
+
+    def get_distance(self):
+        real_image_lib.get_arrowdirection("../image.jpg")
 
     # 距離取得関数
     def get_distance(self):
@@ -51,6 +56,7 @@ easyrun=EasyRun()
 if __name__ == '__main__':
     print ('EasyRun Program is starting ... ')
     try:
+
         easyrun.run()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
         PWM.setMotorModel(0,0,0,0)
