@@ -54,12 +54,12 @@ class Move:
     def stop(self):
         PWM.setMotorModel(0,0,0,0)
     
-    # 右移動
-    def run_right(self):
-        PWM.setMotorModel(-1450, 1450, 1450, -1450)
-    
     # 左移動
     def run_left(self):
+        PWM.setMotorModel(-1450, 1450, 1450, -1450)
+    
+    # 右移動
+    def run_right(self):
         PWM.setMotorModel(1450, -1450, -1450, 1450)
 
 move = Move()
