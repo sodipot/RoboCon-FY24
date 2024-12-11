@@ -47,7 +47,7 @@ class Solver1:
 
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
         self.picam2.stop()
-        print("direction is " + str(direction))
 
+        print("direction is " + str(direction))
         return direction
 
