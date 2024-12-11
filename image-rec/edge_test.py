@@ -2,27 +2,41 @@
 import glob
 import cv2
 import image_rec
+import numpy as np
 
 # 特徴点マッチングに使用する点数
 point_num = 10
 
 # 閾値
-threathold = 100
+threathold = 50
+
+# エッジ検出の閾値
+sigma = 0.7  # 0.33
+min_val = 10
+max_val = 50
 
 # テンプレート画像
 map_img = cv2.imread("./src/map_arrow.png", 0)
-#map_kp, map_des = image_rec.create_vec(map_img)
-map_ret, map_thresh_img = cv2.threshold(map_img, threathold, 255, cv2.THRESH_BINARY)
-map_kp, map_des = image_rec.create_vec(map_thresh_img)
+med_val = np.median(map_img)
+min_val = int(max(0, (1.0 - sigma) * med_val))
+max_val = int(max(255, (1.0 + sigma) * med_val))
+map_edge = cv2.Canny(map_img, min_val, max_val)
+#map_ret, map_thresh_img = cv2.threshold(map_img, threathold, 1, cv2.THRESH_BINARY)
+#map_edge = map_edge * map_thresh_img
+map_kp, map_des = image_rec.create_vec(map_edge)
 
 # 入力画像
 file_path_list = glob.glob("./src/real_data/*")
 query_img_list = []
 for file_path in file_path_list:
     query_img = cv2.imread(file_path, 0)
-    # query_img_list.append(query_img)
-    ret, img_thresh = cv2.threshold(query_img, threathold, 255, cv2.THRESH_BINARY)
-    query_img_list.append(img_thresh)
+    med_val = np.median(map_img)
+    min_val = int(max(0, (1.0 - sigma) * med_val))
+    max_val = int(max(255, (1.0 + sigma) * med_val))
+    query_edge = cv2.Canny(query_img, min_val, max_val)
+    query_ret, query_thresh = cv2.threshold(query_img, threathold, 1, cv2.THRESH_BINARY)
+    query_edge = query_edge * query_thresh
+    query_img_list.append(query_edge)
 
 
 # 入力画像とテンプレート画像のマッチング
@@ -32,7 +46,7 @@ for query_img in query_img_list:
     # メインロジック
     query_kp, query_des = image_rec.create_vec(query_img)
     matches = image_rec.knn_match(map_des, query_des)
-    good = image_rec.select_good_matches(matches, 0.85)
+    good = image_rec.select_good_matches(matches, 0.89)
     is_good = True
     if (len(good) < 1):
         is_good = False
@@ -83,9 +97,11 @@ for query_img in query_img_list:
     else:
         str_final_result = "Error"
 
-    result_img = cv2.drawMatchesKnn(map_thresh_img, map_kp, query_img, query_kp, good, None, flags=2)
+    #result_img = cv2.drawMatchesKnn(map_thresh_img, map_kp, query_img, query_kp, good, None, flags=2)
+    result_img = cv2.drawMatchesKnn(map_edge, map_kp, query_img, query_kp, good, None, flags=2)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(result_img,f"{final_result}: {str_final_result}",(10,180),font,1,(0,0,0),2,cv2.LINE_AA)
+    #cv2.putText(result_img,f"{final_result}: {str_final_result}",(10,180),font,1,(0,0,0),2,cv2.LINE_AA)
+    cv2.putText(result_img,f"{final_result}: {str_final_result}",(10,180),font,1,(255,255,255),2,cv2.LINE_AA)
     cv2.imshow('result_img', result_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
