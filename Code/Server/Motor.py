@@ -83,7 +83,7 @@ class Motor:
     def Rotate(self,n):
         angle = n
         bat_compensate =7.5/(self.adc.recvADC(2)*3)
-        while True:
+        while angle > 0:
             W = 2000
 
             VY = int(2000 * math.cos(math.radians(angle)))
@@ -98,6 +98,8 @@ class Motor:
             print("rotating")
             time.sleep(5*self.time_proportion*bat_compensate/1000)
             angle -= 5
+
+        PWM.setMotorModel(0, 0, 0, 0)
 
 PWM=Motor()          
 def loop(): 
