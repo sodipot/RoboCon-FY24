@@ -16,14 +16,8 @@ class Solver2:
         # 進み順をここで定義する
         self.avoid_to_left()
         self.avoid_to_right()
-        #car.run_foword()
-        #time.sleep(1.5)
-        #car.run_left()
-        #time.sleep(1)
-        #car.run_foword()
-        #time.sleep(2)
-        #car.run_left()
-        #time.sleep(1)
+        self.avoid_to_left()
+        
         car.stop()
 
         print("solver2 end!")

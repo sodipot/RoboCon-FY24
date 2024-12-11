@@ -3,10 +3,12 @@ import os
 import image_rec_lib
 from picamera2 import Picamera2
 from SensorInstance import sensor
+from Move import Move
 
 class Solver1:
     img_file_path = os.path.abspath(f"./capture_image.jpg")
     picam2 = Picamera2()
+    car = Move()
 
     def __init__(self):
         pass
@@ -17,19 +19,31 @@ class Solver1:
     def execute(self):
         print("solver1 execute!")
 
-        self.sensor = sensor
-        
-        self.get_distance()
-        time.sleep(1)
+        isSolved = False
 
-        self.get_distance()
-        time.sleep(1)
+        while not isSolved:
+            # ぶつかるまで前進
+            self.car.run_foword()
 
-        self.get_distance()
-        time.sleep(1)
+            while self.get_distance() >= 25:
+                time.sleep(0.05)
+            
+            self.car.stop()
+            time.sleep(1)
 
-        self.judge_arrow_direction()
-        time.sleep(1)
+            # 向きをたずねて回転
+            direction = self.judge_arrow_direction()
+            if direction == 0:
+                self.car.turn_right()
+                time.sleep(0.8)
+
+            elif direction == 1:
+                self.car.turn_left()
+                time.sleep(0.8)
+
+            else :
+                self.car.turn_right()
+                time.sleep(1.5)
         
         print("solver1 end!")
         return
