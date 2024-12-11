@@ -14,9 +14,17 @@ class Solver2:
         self.sensor = sensor
 
         # 進み順をここで定義する
-        self.avoid_to_left()
-        self.avoid_to_right()
-
+        #self.avoid_to_left()
+        #self.avoid_to_right()
+        car.run_foword()
+        time.sleep(1.5)
+        car.run_left()
+        time.sleep(1)
+        car.run_foword()
+        time.sleep(2)
+        car.run_left()
+        time.sleep(1)
+        car.stop()
 
         print("solver2 end!")
         return
@@ -30,12 +38,12 @@ class Solver2:
     def avoid_to_right(self):
         # ぶつかるまで前進
         car.run_foword()
-        while self.get_distance >= 10:
+        while self.get_distance() >= 10:
             time.sleep(0.1)
         
         # 壁がなくなるまで右へ
         car.run_right()
-        while self.get_distance < 20:
+        while self.get_distance() < 20:
             time.sleep(0.1)
 
         return
@@ -44,12 +52,12 @@ class Solver2:
     def avoid_to_left(self):
         # ぶつかるまで前進
         car.run_foword()
-        while self.get_distance >= 10:
+        while self.get_distance() >= 10:
             time.sleep(0.1)
         
         # 壁がなくなるまで左へ
         car.run_left()
-        while self.get_distance * 100 < 20:
+        while self.get_distance() < 20:
             time.sleep(0.1)
         return
 

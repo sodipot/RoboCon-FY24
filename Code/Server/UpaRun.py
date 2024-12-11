@@ -17,7 +17,7 @@ if __name__ == '__main__':
         solver1.execute()
         solver2 = Solver2()
         solver2.execute()
-        solver3 = Solver3()
-        solver3.execute()
+#        solver3 = Solver3()
+#        solver3.execute()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
         PWM.setMotorModel(0,0,0,0)
