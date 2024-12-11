@@ -1,6 +1,6 @@
 import time
 import os
-import image_rec
+import image_rec_lib
 from picamera2 import Picamera2
 
 
@@ -22,6 +22,6 @@ class Solver1:
     
     def judge_arroow_direction(self):
         self.picam2.capture_file(self.img_file_path)
-        direction = image_rec.get_arrow_direction(self.img_file_path)
+        direction = image_rec_lib.get_arrow_direction(self.img_file_path)
         return direction
 
