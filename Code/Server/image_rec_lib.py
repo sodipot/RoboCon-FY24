@@ -8,7 +8,7 @@ threathold = 40
 def get_arrow_direction(file_path):
     # 入力画像の前処理
     query_img = cv2.imread(file_path, 0)
-    query_img = query_img[120:270, :]
+    query_img = query_img[120:, :]
     query_ret, query_img = cv2.threshold(query_img, threathold, 255, cv2.THRESH_BINARY)
     query_img = 255 - query_img
 
