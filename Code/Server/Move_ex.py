@@ -19,8 +19,8 @@ class Move_ex:
         print(f"theta = {self.theta}")
         dtheta = self.gyro.get_true_wz() * 0.001
         self.theta += dtheta
-        if (self.theta > 90.0):
-            exit(0)
+        #if (self.theta > 90.0):
+        #    exit(0)
         
     # 右回転
     def turn_right(self):
