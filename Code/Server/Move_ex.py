@@ -9,7 +9,7 @@ PWM = Motor()
 class Move_ex:
     gyro = Gyro()
     theta = 0.0
-    RIGHT_WIDTH = -2.15
+    RIGHT_WIDTH = -60
     LEFT_WIDTH = 0
 
     # コンストラクタ
