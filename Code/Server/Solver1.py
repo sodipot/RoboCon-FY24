@@ -11,14 +11,15 @@ class Solver1:
     car = Move()
 
     def __init__(self):
-        pass
+        self.picam2.start()
 
     def __del__(self):
-        pass
+        self.picam2.stop()
 
     def execute(self):
         print("solver1 execute!")
-
+        
+        self.sensor = sensor
         isSolved = False
 
         while not isSolved:
@@ -42,8 +43,8 @@ class Solver1:
                 time.sleep(0.8)
 
             else :
-                self.car.turn_right()
-                time.sleep(1.5)
+                self.car.run_back()
+                time.sleep(1.0)
         
         print("solver1 end!")
         return
@@ -54,11 +55,9 @@ class Solver1:
         return int(distance_cm)
 
     def judge_arrow_direction(self):
-        self.picam2.start()
+        
         self.picam2.capture_file(self.img_file_path)
-
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
-        self.picam2.stop()
 
         print("direction is " + str(direction))
         return direction

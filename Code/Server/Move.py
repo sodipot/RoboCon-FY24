@@ -37,7 +37,7 @@ class Move:
 
     # 前進
     def run_foword(self):
-        PWM.setMotorModel(2000, 2000, 2000, 2000)
+        PWM.setMotorModel(2000, 2000, 3000, 3000)
     
     # 右回転
     def turn_right(self):

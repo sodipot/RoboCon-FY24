@@ -17,6 +17,10 @@ class Solver2:
         self.avoid_to_left()
         self.avoid_to_right()
         self.avoid_to_left()
+        self.avoid_to_right()
+        self.avoid_to_left()
+        self.avoid_to_right()
+        self.avoid_to_left()
         
         car.stop()
 

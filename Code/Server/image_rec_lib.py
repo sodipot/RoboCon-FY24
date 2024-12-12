@@ -8,12 +8,14 @@ threathold = 40
 def get_arrow_direction(file_path):
     # 入力画像の前処理
     query_img = cv2.imread(file_path, 0)
-    query_img = query_img[120:270, :]
+    query_img = query_img[120:, :]
     query_ret, query_img = cv2.threshold(query_img, threathold, 255, cv2.THRESH_BINARY)
     query_img = 255 - query_img
 
     # 輪郭を検出
     contours, _ = cv2.findContours(query_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if (len(contours) < 1):
+        return -1
     # 最大輪郭を選択
     largest_contour = max(contours, key=cv2.contourArea)
     # 輪郭を近似
@@ -22,6 +24,8 @@ def get_arrow_direction(file_path):
     approx_contour = cv2.approxPolyDP(largest_contour, epsilon, True)
     # 重心を計算
     moments = cv2.moments(approx_contour)
+    if (moments['m00'] == 0):
+        return -1
     centroid_x = int(moments['m10'] / moments['m00'])
     centroid_y = int(moments['m01'] / moments['m00'])
     centroid = np.array([centroid_x, centroid_y])
