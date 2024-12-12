@@ -30,7 +30,7 @@ class Move_ex:
 
         signal.signal(signal.SIGALRM, self.signal_handler)
         # インターバルタイマ
-        signal.setitimer(signal.ITIMER_REAL, 0.0, 0.0005)
+        signal.setitimer(signal.ITIMER_REAL, 0.001, 0.001)
 
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
@@ -61,7 +61,7 @@ class Move_ex:
         PWM.setMotorModel(0,0,0,0)
 
         # インターバルタイマ停止
-        signal.setitmer(signal.ITIMER_REAL, 0.0, 0.0005)
+        signal.setitmer(signal.ITIMER_REAL, 0.001, 0.001)
 
         # センサ停止
         self.gyro.stop()
