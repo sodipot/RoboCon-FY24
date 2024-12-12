@@ -14,7 +14,7 @@ def get_arrow_direction(file_path):
 
     # 輪郭を検出
     contours, _ = cv2.findContours(query_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    if (contours < 1):
+    if (len(contours) < 1):
         return -1
     # 最大輪郭を選択
     largest_contour = max(contours, key=cv2.contourArea)
