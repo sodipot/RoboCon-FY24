@@ -27,15 +27,15 @@ class Move_ex:
         self.gyro.start()
 
         signal.signal(signal.SIGALRM, self.signal_handler)
+        # インターバルタイマ
+        signal.setitmer(signal.ITIMER_REAL, 0.0, 0.0005)
+        
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
         while self.theta < 90.0:
             time.sleep(0.0005)
         
         # ここに来たら、積算角度が90度以上
         PWM.setMotorModel(0,0,0,0)
-
-        # インターバルタイマ停止
-        signal.setitmer(signal.ITIMER_REAL, 0.0, 0.0005)
 
         # センサ停止
         self.gyro.stop()
