@@ -15,7 +15,7 @@ class Move_ex:
         self.gyro.set_up()
 
     # ハンドラ
-    def signal_handler(self):
+    def signal_handler(self, arg1, arg2):
         print(f"theta = {self.theta}")
         dtheta = self.gyro.get_true_wz() * 0.001
         self.theta += dtheta
@@ -30,7 +30,7 @@ class Move_ex:
 
         signal.signal(signal.SIGALRM, self.signal_handler)
         # インターバルタイマ
-        #signal.setitimer(signal.ITIMER_REAL, 0.001, 0.001)
+        signal.setitimer(signal.ITIMER_REAL, 0.001, 0.001)
 
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
