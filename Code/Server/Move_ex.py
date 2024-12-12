@@ -19,6 +19,8 @@ class Move_ex:
         print(f"theta = {self.theta}")
         dtheta = self.gyro.get_true_wz() * 0.001
         self.theta += dtheta
+        if (self.theta > 90.0):
+            exit(0)
         
     # 右回転
     def turn_right(self):
@@ -28,7 +30,7 @@ class Move_ex:
 
         signal.signal(signal.SIGALRM, self.signal_handler)
         # インターバルタイマ
-        signal.setitmer(signal.ITIMER_REAL, 0.0, 0.0005)
+        signal.setitimer(signal.ITIMER_REAL, 0.001, 0.001)
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
         while self.theta < 90.0:
