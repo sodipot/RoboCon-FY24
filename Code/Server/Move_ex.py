@@ -77,7 +77,7 @@ class Move_ex:
 
 move = Move_ex()
 #move.turn_left()
-move.turn_right()
+#move.turn_right()
 
 """
 # Main program logic follows:

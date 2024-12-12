@@ -4,11 +4,17 @@ import image_rec_lib
 from picamera2 import Picamera2
 from SensorInstance import sensor
 from Move import Move
+from Move_ex import Move_ex
 
 class Solver1:
     img_file_path = os.path.abspath(f"./capture_image.jpg")
     picam2 = Picamera2()
     car = Move()
+    car_ex = Move_ex()
+
+    # 判定に用いる距離
+    NEAR = 25.0
+    FAR = 300.0
 
     def __init__(self):
         self.picam2.start()
@@ -23,28 +29,51 @@ class Solver1:
         isSolved = False
 
         while not isSolved:
-            # ぶつかるまで前進
-            self.car.run_foword()
-
-            while self.get_distance() >= 25:
-                time.sleep(0.05)
             
-            self.car.stop()
-            time.sleep(1)
+            # 明かるければ迷路クリア済み
 
-            # 向きをたずねて回転
-            direction = self.judge_arrow_direction()
-            if direction == 0:
-                self.car.turn_right()
-                time.sleep(0.8)
+            
+            # 距離を測る
+            d = self.get_distance()
 
-            elif direction == 1:
-                self.car.turn_left()
-                time.sleep(0.8)
+            # 近い
+            if d <= self.NEAR:
+                # 一度止まって画像処理
+                self.car.stop()
+                dir = self.judge_arrow_direction()
+                time.sleep(2)
 
-            else :
-                self.car.run_back()
-                time.sleep(1.0)
+                # 右
+                if dir == 0: 
+                    # ターン
+                    self.car_ex.turn_right()
+                    time.sleep(1)
+                # 左
+                elif dir == 1:
+                    # ターン
+                    self.car_ex.turn_left()
+                    time.sleep(1)
+                # それ以外
+                else:
+                    # 少し下がりもう一度画像処理
+                    self.car.run_back()
+                    dir = self.judge_arrow_direction()
+                    time.sleep(2)
+
+                    # 下がってもわからないならちょっと曲がっておく
+                    if dir == -1:
+                        self.car.turn_left()
+                        time.sleep(0.5)
+            
+            # 遠い
+            elif (self.NEAR < d) and (d < self.FAR):
+                # ちょっと進む
+                self.car.run_foword()
+                time.sleep(0.1)
+
+            # 外れ値は無視する
+            else:
+                pass
         
         print("solver1 end!")
         return
