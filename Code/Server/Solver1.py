@@ -43,8 +43,8 @@ class Solver1:
                 time.sleep(0.8)
 
             else :
-                self.car.turn_right()
-                time.sleep(1.5)
+                self.car.run_back()
+                time.sleep(1.0)
         
         print("solver1 end!")
         return
