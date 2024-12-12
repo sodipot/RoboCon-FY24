@@ -31,6 +31,7 @@ class Move_ex:
         signal.signal(signal.SIGALRM, self.signal_handler)
         # インターバルタイマ
         signal.setitimer(signal.ITIMER_REAL, 0.001, 0.001)
+
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
         while self.theta < 90.0:
@@ -45,8 +46,8 @@ class Move_ex:
         return
 
 
-            # 右回転
-    def turn_right(self):
+    # 右回転
+    def turn_left(self):
         self.theta = 0.0 
         # センサスタート
         self.gyro.start()
