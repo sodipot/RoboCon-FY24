@@ -24,6 +24,8 @@ def get_arrow_direction(file_path):
     approx_contour = cv2.approxPolyDP(largest_contour, epsilon, True)
     # 重心を計算
     moments = cv2.moments(approx_contour)
+    if (moments['m00'] == 0):
+        return -1
     centroid_x = int(moments['m10'] / moments['m00'])
     centroid_y = int(moments['m01'] / moments['m00'])
     centroid = np.array([centroid_x, centroid_y])
