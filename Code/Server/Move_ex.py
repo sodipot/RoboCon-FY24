@@ -11,7 +11,7 @@ class Move_ex:
     theta = 0.0
     RIGHT_WIDTH = -2.15
     LEFT_WIDTH = 0
-    
+
     # コンストラクタ
     def __init__(self):
         self.gyro.set_up()
@@ -36,7 +36,7 @@ class Move_ex:
 
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
-        while self.theta < 90.0 + self.WIDTH:
+        while self.theta < 90.0 + self.RIGHT_WIDTH:
             time.sleep(0.0005)
         
         # ここに来たら、積算角度が90度以上
