@@ -1,6 +1,7 @@
 import time
 from Motor import Motor
 from PCA9685 import PCA9685
+from Gyro import Gyro
 
 PWM = Motor()
 
@@ -41,7 +42,7 @@ class Move:
     # 右回転
     def turn_right(self):
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
-                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
     # 左回転
     def turn_left(self):
         PWM.setMotorModel(1450, 1450, -1450, -1450)
