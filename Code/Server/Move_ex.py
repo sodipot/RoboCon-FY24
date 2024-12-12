@@ -9,7 +9,9 @@ PWM = Motor()
 class Move_ex:
     gyro = Gyro()
     theta = 0.0
-
+    RIGHT_WIDTH = -2.15
+    LEFT_WIDTH = 0
+    
     # コンストラクタ
     def __init__(self):
         self.gyro.set_up()
@@ -34,7 +36,7 @@ class Move_ex:
 
         
         PWM.setMotorModel(-1450, -1450, 1450, 1450)
-        while self.theta < 90.0:
+        while self.theta < 90.0 + self.WIDTH:
             time.sleep(0.0005)
         
         # ここに来たら、積算角度が90度以上
@@ -46,7 +48,7 @@ class Move_ex:
         return
 
 
-    # 右回転
+    # 左
     def turn_left(self):
         self.theta = 0.0 
         # センサスタート
