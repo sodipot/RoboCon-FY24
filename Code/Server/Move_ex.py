@@ -16,6 +16,7 @@ class Move_ex:
 
     # ハンドラ
     def signal_handler(self):
+        print(f"theta = {self.theta}")
         dtheta = self.gyro.get_true_wz() * 0.001
         self.theta += dtheta
         
