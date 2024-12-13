@@ -24,12 +24,20 @@ class Light:
                         self.PWM.setMotorModel(1400,1400,-1200,-1200)
                     
         except KeyboardInterrupt:
-           led_Car.PWM.setMotorModel(0,0,0,0) 
+           led_Car.PWM.setMotorModel(0,0,0,0)
+
+    def light_test(self):
+        L = self.adc.recvADC(0)
+        R = self.adc.recvADC(1)
+        print("light L:" + str(L) +" R:" + str(R))
+
 
 if __name__=='__main__':
     print ('Program is starting ... ')
     led_Car=Light()
-    led_Car.run()
+
+    while True:
+        led_Car.light_test()
 
 
         
