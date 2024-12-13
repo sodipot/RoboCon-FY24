@@ -15,8 +15,9 @@ class Move_ex:
 
     # コンストラクタ
     def __init__(self):
-        self.gyro.set_up()
+        # self.gyro.set_up()
         # atexit.register(self.cleanup)
+        pass
 
     # ハンドラ
     def old_signal_handler(self, arg1, arg2):
@@ -47,6 +48,8 @@ class Move_ex:
     # 左回転
     def turn_left(self):
         self.theta = 0.0 
+
+        self.gyro.set_up()
         # センサスタート
         self.gyro.start()
 
@@ -74,6 +77,8 @@ class Move_ex:
     # 右
     def turn_right(self):
         self.theta = 0.0 
+
+        self.gyro.set_up()
         # センサスタート
         self.gyro.start()
 
