@@ -87,6 +87,7 @@ class Solver1:
 
     def judge_arrow_direction(self):
         self.picam2.start()
+        time.sleep(1)
         
         self.picam2.capture_file(self.img_file_path)
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
