@@ -63,7 +63,7 @@ def get_arrow_direction(file_path):
 BLUE_LOWER = np.array([120,64,0])
 BLUE_UPPER = np.array([150,255,255])
 # GREEN
-GREEN_LOWER = np.array([30,64,0])
+GREEN_LOWER = np.array([60,64,0])
 GREEN_UPPER = np.array([90,255,255])
 # RED
 ORENGE_LOWER = np.array([0,64,0])
@@ -94,3 +94,12 @@ def get_color(file_path):
         return max_color_index
     
     return -1
+
+result_none = get_color(f"./capture_image.jpg")
+result_red = get_color(f"./red.jpg")
+result_green = get_color(f"./green.jpg")
+result_blue = get_color(f"./blue.jpg")
+print(f"result_none = {result_none}")
+print(f"result_red = {result_red}")
+print(f"result_green = {result_green}")
+print(f"result_blue = {result_blue}")
