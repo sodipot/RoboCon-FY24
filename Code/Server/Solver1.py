@@ -14,13 +14,13 @@ class Solver1:
     car_ex = Move_ex()
     adc = Adc()
 
-    # for left lane
-    # L_LIGHT_THRESHOLD = 2.86
-    # R_LIGHT_THRESHOLD = 2.74
-
     # for right lane
     L_LIGHT_THRESHOLD = 2.86
-    R_LIGHT_THRESHOLD = 2.72
+    R_LIGHT_THRESHOLD = 2.74
+
+    # for left lane
+    # L_LIGHT_THRESHOLD = 2.86
+    #R_LIGHT_THRESHOLD = 2.72
 
     # 判定に用いる距離
     NEAR = 40.0
@@ -46,7 +46,7 @@ class Solver1:
 
         # 最初にちょっと走る
         self.car.run_foword()
-        time.sleep(1)
+        time.sleep(2)
 
         while not isSolved:
             
@@ -83,7 +83,7 @@ class Solver1:
                 else:
                     # 少し下がりもう一度画像処理
                     self.car.run_back()
-                    time.sleep(0.3)
+                    time.sleep(0.8)
                     self.car.stop()
                     dir = self.judge_arrow_direction()
                     time.sleep(2)
