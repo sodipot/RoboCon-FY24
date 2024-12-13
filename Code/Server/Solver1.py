@@ -13,7 +13,7 @@ class Solver1:
     car_ex = Move_ex()
 
     # 判定に用いる距離
-    NEAR = 25.0
+    NEAR = 30.0
     FAR = 300.0
 
     def __init__(self):
@@ -59,13 +59,14 @@ class Solver1:
                 else:
                     # 少し下がりもう一度画像処理
                     self.car.run_back()
+                    self.car.stop()
                     dir = self.judge_arrow_direction()
                     time.sleep(2)
 
                     # 下がってもわからないならちょっと曲がっておく
                     if dir == -1:
                         self.car.turn_left()
-                        time.sleep(0.5)
+                        time.sleep(0.1)
             
             # 遠い
             elif (self.NEAR < d) and (d < self.FAR):
@@ -88,7 +89,7 @@ class Solver1:
     def judge_arrow_direction(self):
         self.picam2.start()
         time.sleep(1)
-        
+
         self.picam2.capture_file(self.img_file_path)
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
 
