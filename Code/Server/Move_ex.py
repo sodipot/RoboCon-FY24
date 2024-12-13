@@ -28,7 +28,7 @@ class Move_ex:
     
     # ハンドラ
     def signal_handler(self, signum, frame):
-        print(f"Signal handler called with theta = {self.theta}")
+        #print(f"Signal handler called with theta = {self.theta}")
         if self.gyro is not None:
             try:
                 dtheta = self.gyro.get_true_wz() * 0.001
@@ -62,11 +62,12 @@ class Move_ex:
         # ここに来たら、積算角度が90度以上
         PWM.setMotorModel(0,0,0,0)
 
+        # タイマー停止
+        signal.setitimer(signal.ITIMER_REAL, 0)
+
         # センサ停止
         self.gyro.stop()
 
-        # タイマー停止
-        signal.setitimer(signal.ITIMER_REAL, 0)
 
         self.cleanup()
 
@@ -90,12 +91,12 @@ class Move_ex:
         # ここに来たら、積算角度が90度以上
         PWM.setMotorModel(0,0,0,0)
 
+        # タイマー停止
+        signal.setitimer(signal.ITIMER_REAL, 0)
 
         # センサ停止
         self.gyro.stop()
 
-        # タイマー停止
-        signal.setitimer(signal.ITIMER_REAL, 0)
 
         self.cleanup()
 
