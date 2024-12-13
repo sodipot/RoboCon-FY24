@@ -38,11 +38,11 @@ class Move_ex:
     
     # 後処理
     # クリーンアップメソッド
-    def cleanup(self):
-        PWM.setMotorModel(0, 0, 0, 0)
-        if self.gyro is not None:
-            self.gyro.stop()
-        print("Cleanup complete")
+    # def cleanup(self):
+    #     PWM.setMotorModel(0, 0, 0, 0)
+    #     if self.gyro is not None:
+    #         self.gyro.stop()
+    #     print("Cleanup complete")
 
     # 左回転
     def turn_left(self):
@@ -67,9 +67,6 @@ class Move_ex:
 
         # センサ停止
         self.gyro.stop()
-
-
-        self.cleanup()
 
         return
 
@@ -96,9 +93,6 @@ class Move_ex:
 
         # センサ停止
         self.gyro.stop()
-
-
-        self.cleanup()
 
         return
 
