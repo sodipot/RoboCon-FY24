@@ -56,3 +56,52 @@ def get_arrow_direction(file_path):
         return 1
     else:
         return -1
+
+
+# BLUE
+#BLUE_LOWER = np.array([90,64,0])
+BLUE_LOWER = np.array([120,64,0])
+BLUE_UPPER = np.array([150,255,255])
+# GREEN
+GREEN_LOWER = np.array([60,64,0])
+GREEN_UPPER = np.array([90,255,255])
+# RED
+ORENGE_LOWER = np.array([0,64,0])
+ORENGE_UPPER = np.array([30,255,255])
+
+# 最大値
+MAX_THRETH_PER = 0.05
+
+def get_color(file_path):
+    # 入力画像の前処理
+    query_img = cv2.imread(file_path)
+    #BGR色空間からHSV色空間への変換
+    hsv = cv2.cvtColor(query_img, cv2.COLOR_BGR2HSV)
+    #色検出しきい値範囲内の色を抽出するマスクを作成
+    blue_frame_mask = cv2.inRange(hsv, BLUE_LOWER, BLUE_UPPER)
+    green_frame_mask = cv2.inRange(hsv, GREEN_LOWER, GREEN_UPPER)
+    orenge_frame_mask = cv2.inRange(hsv, ORENGE_LOWER, ORENGE_UPPER)
+    #論理演算で色検出
+    blue_count = len(blue_frame_mask[blue_frame_mask > 0])
+    green_count = len(green_frame_mask[green_frame_mask > 0])
+    orenge_count = len(orenge_frame_mask[orenge_frame_mask > 0])
+
+    color_count = np.array([orenge_count, green_count, blue_count])
+    print(f"color_count = {color_count}")
+    max_color_count = np.max(color_count)
+    if (max_color_count > query_img.shape[0]*query_img.shape[1]*MAX_THRETH_PER):
+        max_color_index = np.argmax(color_count)
+        return max_color_index
+    
+    return -1
+
+"""
+result_none = get_color(f"./capture_image.jpg")
+result_red = get_color(f"./red.jpg")
+result_green = get_color(f"./green.jpg")
+result_blue = get_color(f"./blue.jpg")
+print(f"result_none = {result_none}")
+print(f"result_red = {result_red}")
+print(f"result_green = {result_green}")
+print(f"result_blue = {result_blue}")
+"""
