@@ -5,12 +5,18 @@ from picamera2 import Picamera2
 from SensorInstance import sensor
 from Move import Move
 from Move_ex import Move_ex
+from ADC import *
 
 class Solver1:
     img_file_path = os.path.abspath(f"./capture_image.jpg")
     picam2 = Picamera2()
     car = Move()
     car_ex = Move_ex()
+    adc = Adc()
+
+    L_LIGHT_THRESHOLD = 2.87
+    R_LIGHT_THRESHOLD = 2.75
+
 
     # 判定に用いる距離
     NEAR = 40.0
@@ -33,6 +39,11 @@ class Solver1:
         while not isSolved:
             
             # 明かるければ迷路クリア済み
+            L = self.adc.recvADC(0)
+            R = self.adc.recvADC(1)
+            if L > self.L_LIGHT_THRESHOLD or R > self.R_LIGHT_THRESHOLD:
+                isSolbed = True
+
 
 
             # 距離を測る

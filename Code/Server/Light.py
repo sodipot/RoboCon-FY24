@@ -27,6 +27,7 @@ class Light:
            led_Car.PWM.setMotorModel(0,0,0,0)
 
     def light_test(self):
+        self.adc=Adc()
         L = self.adc.recvADC(0)
         R = self.adc.recvADC(1)
         print("light L:" + str(L) +" R:" + str(R))
