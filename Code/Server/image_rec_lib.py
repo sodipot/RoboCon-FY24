@@ -59,12 +59,18 @@ def get_arrow_direction(file_path):
 
 
 # BLUE
-BLUE_LOWER = np.array([90,64,0])
+#BLUE_LOWER = np.array([90,64,0])
+BLUE_LOWER = np.array([120,64,0])
 BLUE_UPPER = np.array([150,255,255])
+# GREEN
 GREEN_LOWER = np.array([30,64,0])
 GREEN_UPPER = np.array([90,255,255])
-ORENGE_LOWER = np.array([150,64,0])
-ORENGE_UPPER = np.array([180,255,255])
+# RED
+ORENGE_LOWER = np.array([0,64,0])
+ORENGE_UPPER = np.array([30,255,255])
+
+# 最大値
+MAX_THRETH_PER = 0.05
 
 def get_color(file_path):
     # 入力画像の前処理
@@ -83,11 +89,17 @@ def get_color(file_path):
     color_count = np.array([orenge_count, green_count, blue_count])
     print(f"color_count = {color_count}")
     max_color_count = np.max(color_count)
-    if (max_color_count > 50):
+    if (max_color_count > query_img.shape[0]*query_img.shape[1]*MAX_THRETH_PER):
         max_color_index = np.argmax(color_count)
         return max_color_index
     
     return -1
 
-result = get_color(f"./capture_image.jpg")
-print(result)
+result_none = get_color(f"./capture_image.jpg")
+result_red = get_color(f"./red.jpg")
+result_green = get_color(f"./green.jpg")
+result_blue = get_color(f"./blue.jpg")
+print(f"result_none = {result_none}")
+print(f"result_red = {result_red}")
+print(f"result_green = {result_green}")
+print(f"result_blue = {result_blue}")
