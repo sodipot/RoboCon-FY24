@@ -95,7 +95,11 @@ class Solver1:
 
         # リソースの開放
         self.picam2.stop()
-
+        try:
+            self.picam2.close()  # カメラリソースを解放
+        except RuntimeError as e:
+            print(f"RuntimeError in __del__: {e}")
+            
         print("direction is " + str(direction))
         return direction
 

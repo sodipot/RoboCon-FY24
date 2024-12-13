@@ -19,12 +19,22 @@ class Move_ex:
         atexit.register(self.cleanup)
 
     # ハンドラ
-    def signal_handler(self, arg1, arg2):
-        #print(f"theta = {self.theta}")
+    def old_signal_handler(self, arg1, arg2):
+        print(f"theta = {self.theta}")
         dtheta = self.gyro.get_true_wz() * 0.001
         self.theta += dtheta
         #if (self.theta > 90.0):
         #    exit(0)
+    
+    # ハンドラ
+    def signal_handler(self, signum, frame):
+        print(f"Signal handler called with theta = {self.theta}")
+        if self.gyro is not None:
+            try:
+                dtheta = self.gyro.get_true_wz() * 0.001
+                self.theta += dtheta
+            except OSError as e:
+                print(f"OSError in signal_handler: {e}")
     
     # 後処理
     # クリーンアップメソッド
@@ -55,6 +65,9 @@ class Move_ex:
         # センサ停止
         self.gyro.stop()
 
+        # タイマー停止
+        signal.setitimer(signal.ITIMER_REAL, 0)
+
         self.cleanup()
 
         return
@@ -80,6 +93,9 @@ class Move_ex:
 
         # センサ停止
         self.gyro.stop()
+
+        # タイマー停止
+        signal.setitimer(signal.ITIMER_REAL, 0)
 
         self.cleanup()
 
