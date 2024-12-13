@@ -16,7 +16,7 @@ class Move_ex:
     # コンストラクタ
     def __init__(self):
         self.gyro.set_up()
-        atexit.register(self.cleanup)
+        # atexit.register(self.cleanup)
 
     # ハンドラ
     def old_signal_handler(self, arg1, arg2):
