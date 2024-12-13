@@ -14,9 +14,13 @@ class Solver1:
     car_ex = Move_ex()
     adc = Adc()
 
-    L_LIGHT_THRESHOLD = 2.87
-    R_LIGHT_THRESHOLD = 2.75
+    # for left lane
+    # L_LIGHT_THRESHOLD = 2.86
+    # R_LIGHT_THRESHOLD = 2.74
 
+    # for right lane
+    L_LIGHT_THRESHOLD = 2.86
+    R_LIGHT_THRESHOLD = 2.72
 
     # 判定に用いる距離
     NEAR = 40.0
@@ -41,8 +45,9 @@ class Solver1:
             # 明かるければ迷路クリア済み
             L = self.adc.recvADC(0)
             R = self.adc.recvADC(1)
-            if L > self.L_LIGHT_THRESHOLD or R > self.R_LIGHT_THRESHOLD:
-                isSolbed = True
+            print(f'Light: L={L}, R={R}')
+            if L >= self.L_LIGHT_THRESHOLD and R >= self.R_LIGHT_THRESHOLD:
+                isSolved = True
 
 
 
