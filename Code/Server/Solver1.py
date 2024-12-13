@@ -14,13 +14,13 @@ class Solver1:
     car_ex = Move_ex()
     adc = Adc()
 
-    # for left lane
-    # L_LIGHT_THRESHOLD = 2.86
-    # R_LIGHT_THRESHOLD = 2.74
-
     # for right lane
     L_LIGHT_THRESHOLD = 2.86
-    R_LIGHT_THRESHOLD = 2.72
+    R_LIGHT_THRESHOLD = 2.74
+
+    # for left lane
+    # L_LIGHT_THRESHOLD = 2.86
+    #R_LIGHT_THRESHOLD = 2.72
 
     # 判定に用いる距離
     NEAR = 40.0
@@ -39,6 +39,14 @@ class Solver1:
         
         self.sensor = sensor
         isSolved = False
+        prev_d_d1 = 1000000
+        prev_d_d2 = 1000000
+        prev_d_d3 = 1000000
+        prev_d_d4 = 1000000
+
+        # 最初にちょっと走る
+        self.car.run_foword()
+        time.sleep(2)
 
         while not isSolved:
             
@@ -75,6 +83,7 @@ class Solver1:
                 else:
                     # 少し下がりもう一度画像処理
                     self.car.run_back()
+                    time.sleep(0.8)
                     self.car.stop()
                     dir = self.judge_arrow_direction()
                     time.sleep(2)
@@ -82,7 +91,7 @@ class Solver1:
                     # 下がってもわからないならちょっと曲がっておく
                     if dir == -1:
                         self.car.turn_left()
-                        time.sleep(0.1)
+                        time.sleep(0.25)
             
             # 遠い
             elif (self.NEAR < d) and (d < self.FAR):
@@ -93,6 +102,25 @@ class Solver1:
             # 外れ値は無視する
             else:
                 pass
+
+            # スタック
+            if (abs(d - prev_d_d4) <= 0.1):
+                print(f'd_diff0:{abs(d-prev_d_d4)}')
+                print(f'd_diff1:{d}')
+                print(f'd_diff2:{prev_d_d1}')
+                print(f'd_diff3:{prev_d_d2}')
+                print(f'd_diff4:{prev_d_d3}')
+                print(f'd_diff5:{prev_d_d4}')
+                # ちょっと曲がる
+                self.car.turn_left()
+                time.sleep(0.1)
+
+
+
+            prev_d_d4 = prev_d_d3
+            prev_d_d3 = prev_d_d2
+            prev_d_d2 = prev_d_d1
+            prev_d_d1 = d
         
         print("solver1 end!")
         return
@@ -100,7 +128,8 @@ class Solver1:
     def get_distance(self):
         distance_cm = self.sensor.distance * 100
         print(str(distance_cm) + "cm")
-        return int(distance_cm)
+        # return int(distance_cm)
+        return (distance_cm)
 
     def judge_arrow_direction(self):
         # self.picam2.start()
