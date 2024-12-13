@@ -17,10 +17,12 @@ class Solver1:
     FAR = 300.0
 
     def __init__(self):
-        self.picam2.start()
+        #self.picam2.start()
+        pass
 
     def __del__(self):
-        self.picam2.stop()
+        #self.picam2.stop()
+        pass
 
     def execute(self):
         print("solver1 execute!")
@@ -32,7 +34,7 @@ class Solver1:
             
             # 明かるければ迷路クリア済み
 
-            
+
             # 距離を測る
             d = self.get_distance()
 
@@ -84,9 +86,13 @@ class Solver1:
         return int(distance_cm)
 
     def judge_arrow_direction(self):
+        self.picam2.start()
         
         self.picam2.capture_file(self.img_file_path)
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
+
+        # リソースの開放
+        self.picam2.stop()
 
         print("direction is " + str(direction))
         return direction

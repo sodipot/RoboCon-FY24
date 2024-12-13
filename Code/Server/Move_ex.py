@@ -3,6 +3,7 @@ from Motor import Motor
 from PCA9685 import PCA9685
 from Gyro import Gyro
 import signal
+import atexit
 
 PWM = Motor()
 
@@ -15,6 +16,7 @@ class Move_ex:
     # コンストラクタ
     def __init__(self):
         self.gyro.set_up()
+        atexit.register(self.cleanup)
 
     # ハンドラ
     def signal_handler(self, arg1, arg2):
@@ -23,7 +25,14 @@ class Move_ex:
         self.theta += dtheta
         #if (self.theta > 90.0):
         #    exit(0)
-        
+    
+    # 後処理
+    # クリーンアップメソッド
+    def cleanup(self):
+        PWM.setMotorModel(0, 0, 0, 0)
+        self.gyro.stop()
+        print("Cleanup complete")
+
     # 左回転
     def turn_left(self):
         self.theta = 0.0 
