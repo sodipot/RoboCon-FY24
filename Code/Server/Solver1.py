@@ -13,16 +13,16 @@ class Solver1:
     car_ex = Move_ex()
 
     # 判定に用いる距離
-    NEAR = 30.0
+    NEAR = 40.0
     FAR = 300.0
 
     def __init__(self):
-        #self.picam2.start()
-        pass
+        self.picam2.start()
+        #pass
 
     def __del__(self):
-        #self.picam2.stop()
-        pass
+        self.picam2.stop()
+        #pass
 
     def execute(self):
         print("solver1 execute!")
@@ -87,19 +87,19 @@ class Solver1:
         return int(distance_cm)
 
     def judge_arrow_direction(self):
-        self.picam2.start()
-        time.sleep(1)
+        # self.picam2.start()
+        # time.sleep(1)
 
         self.picam2.capture_file(self.img_file_path)
         direction = image_rec_lib.get_arrow_direction(self.img_file_path)
 
         # リソースの開放
-        self.picam2.stop()
-        try:
-            self.picam2.close()  # カメラリソースを解放
-        except RuntimeError as e:
-            print(f"RuntimeError in __del__: {e}")
-            
+        # self.picam2.stop()
+        # try:
+        #     self.picam2.close()  # カメラリソースを解放
+        # except RuntimeError as e:
+        #     print(f"RuntimeError in __del__: {e}")
+
         print("direction is " + str(direction))
         return direction
 
