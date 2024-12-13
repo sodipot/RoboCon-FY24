@@ -95,6 +95,7 @@ def get_color(file_path):
     
     return -1
 
+"""
 result_none = get_color(f"./capture_image.jpg")
 result_red = get_color(f"./red.jpg")
 result_green = get_color(f"./green.jpg")
@@ -103,3 +104,4 @@ print(f"result_none = {result_none}")
 print(f"result_red = {result_red}")
 print(f"result_green = {result_green}")
 print(f"result_blue = {result_blue}")
+"""
